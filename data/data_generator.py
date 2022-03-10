@@ -13,7 +13,7 @@ def data_generate(n_sample: int, v0: float, sigma: float = 1,
 
     v0: vận tốc ban đầu
 
-    n_error: số lần áp dụng sai số vào mẫu
+    sigma: độ lệch chuẩn của sai số
 
     seed: random seed
 
