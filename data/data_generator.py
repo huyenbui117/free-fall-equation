@@ -1,3 +1,4 @@
+from matplotlib import scale
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -5,7 +6,7 @@ import matplotlib.pyplot as plt
 G = 9.8
 
 
-def data_generate(n_sample: int, v0: float, n_error: int = 3,
+def data_generate(n_sample: int, v0: float, sigma: float = 1,
                   decimals=2, seed=None):
     '''
     n_sample: số lượng dữ liệu
@@ -22,27 +23,20 @@ def data_generate(n_sample: int, v0: float, n_error: int = 3,
 
     time_of_fall = 2 * v0 / G
 
-    epsilon = np.random.standard_normal(size=(n_sample, n_error))
-
-    epsilon = epsilon / epsilon.max()
+    epsilon = np.random.normal(scale=sigma, size=n_sample)
 
     t = np.random.uniform(low=0, high=time_of_fall, size=n_sample)
 
-    t = t.round(decimals)
+    # tính y theo công thức và thêm sai số
+    y = v0*t - (G/2)*np.power(t, 2) + epsilon
 
-    # thêm sai số khi đo
-    t_mul = t.reshape(n_sample, 1) + epsilon
-
-    y = v0*t_mul - (G/2)*np.power(t_mul, 2)
-
-    # lấy trung bình sai số
-    y = np.mean(y, axis=-1)
     y[y < 0] = 0
 
     # thêm sai số dụng cụ
+    t = t.round(decimals)
     y = y.round(decimals)
 
-    return np.squeeze(y), t
+    return y, t
 
 
 def to_csv(y, t, file_path, index=False):
@@ -52,8 +46,8 @@ def to_csv(y, t, file_path, index=False):
 
 
 if __name__ == "__main__":
-    y_train, t_train = data_generate(n_sample=500, v0=10, n_error=5, seed=188)
-    y_test, t_test = data_generate(n_sample=200, v0=10, n_error=5, seed=202)
+    y_train, t_train = data_generate(n_sample=500, v0=10, sigma=.15, seed=188)
+    y_test, t_test = data_generate(n_sample=200, v0=10, sigma=.1, seed=202)
 
     # plt.plot(t_train, y_train, 'ro')
     # plt.plot(t_test, y_test, 'gx')
