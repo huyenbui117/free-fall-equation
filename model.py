@@ -1,4 +1,7 @@
 import numpy as np
+import pickle
+import os 
+import matplotlib.pyplot as plt
 class PolynomailRegression():
     """Base class for Linear Models"""
 
@@ -17,12 +20,12 @@ class PolynomailRegression():
         return X_transform
 
     # function to normalize X_transform
-    def normalize( self, X ) :
-         
+    def normalize( self, X ) :         
         X[:, 1:] = ( X[:, 1:] - np.mean( X[:, 1:], axis = 0 ) ) / np.std( X[:, 1:], axis = 0 )
          
         return X
-
+    def loss_function(pred, actual):
+        return pred - actual;
     def fit( self, X, Y ) :
          
         self.X = X
@@ -49,7 +52,7 @@ class PolynomailRegression():
              
             h = self.predict( self.X )
          
-            error = h - self.Y
+            error = loss_function(h, self.Y)
              
             # update weights
          
@@ -61,7 +64,7 @@ class PolynomailRegression():
     def predict( self, X ) :
         
      
-        self.row,_= self.X.shape
+        self.row,_= X.shape
       
         # transform X for polynomial  h( x ) = w0 * x^0 + w1 * x^1 + w2 * x^2 + ........+ wn * x^n
          
@@ -71,3 +74,32 @@ class PolynomailRegression():
         Y_pred =np.dot( X_transform, self.W )
          
         return Y_pred
+    def save_model(self,model_name):
+        cwd = os.getcwd() 
+        script = os.path.realpath(cwd)+"\\"+"savemodel"
+        if not os.path.exists(script):
+            os.makedirs(script)
+        script= script + "\\"+model_name+".pkl"
+        pickle.dump(self, open(script, 'wb'))
+    def load_model(self, path):
+        cwd = os.getcwd() 
+        script = os.path.realpath(cwd)+"\\"+path
+        pickled_model = pickle.load(open(script,"rb"))
+        return pickled_model
+    def get_parameters(self):
+        return self.W
+def visualize( X, Y, color, new_plot=False, figure=None):
+    if new_plot:
+        fig = plt.figure()
+    else:
+        fig = figure
+    plt.scatter( X, Y, color = color )
+    
+    plt.title( 'X vs Y' )
+    
+    plt.xlabel( 'X' )
+    
+    plt.ylabel( 'Y' )
+    return fig
+def visualize_show():
+    plt.show()
