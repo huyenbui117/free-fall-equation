@@ -1,0 +1,1 @@
+output = {"degree": [], "r-squared": [], "parameters": []}

@@ -24,8 +24,8 @@ class PolynomailRegression():
         X[:, 1:] = ( X[:, 1:] - np.mean( X[:, 1:], axis = 0 ) ) / np.std( X[:, 1:], axis = 0 )
          
         return X
-    def loss_function(pred, actual):
-        return pred - actual;
+    def error_function(self, pred, actual):
+        return pred - actual
     def fit( self, X, Y ) :
          
         self.X = X
@@ -52,7 +52,7 @@ class PolynomailRegression():
              
             h = self.predict( self.X )
          
-            error = loss_function(h, self.Y)
+            error = self.error_function(h, self.Y)
              
             # update weights
          
