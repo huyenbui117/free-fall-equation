@@ -101,5 +101,6 @@ def visualize( X, Y, color, new_plot=False, figure=None):
     
     plt.ylabel( 'Y' )
     return fig
-def visualize_show():
+def visualize_show(model_name):
+    plt.title(model_name)
     plt.show()

@@ -1,0 +1,9 @@
+{
+    "Experiment": "PolynomialRegression",
+  	"degree": 1,
+  	"iterations": 1000,
+  	"learning_rate": 0.01,
+    "do_train": false,
+    "do_eval": true,
+    "do_predict": true
+}
