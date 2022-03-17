@@ -1,7 +1,6 @@
 import numpy as np
 import pickle
 import os 
-import matplotlib.pyplot as plt
 class PolynomailRegression():
     """Base class for Linear Models"""
 
@@ -74,9 +73,9 @@ class PolynomailRegression():
         Y_pred =np.dot( X_transform, self.W )
          
         return Y_pred
-    def save_model(self,model_name):
+    def save_model(self,model_name, experiment_name):
         cwd = os.getcwd() 
-        script = os.path.realpath(cwd)+"\\"+"savemodel"
+        script = os.path.realpath(cwd)+"\\"+"savemodel\\" + experiment_name + "\\"+ model_name
         if not os.path.exists(script):
             os.makedirs(script)
         script= script + "\\"+model_name+".pkl"
@@ -88,19 +87,4 @@ class PolynomailRegression():
         return pickled_model
     def get_parameters(self):
         return self.W
-def visualize( X, Y, color, new_plot=False, figure=None):
-    if new_plot:
-        fig = plt.figure()
-    else:
-        fig = figure
-    plt.scatter( X, Y, color = color )
-    
-    plt.title( 'X vs Y' )
-    
-    plt.xlabel( 'X' )
-    
-    plt.ylabel( 'Y' )
-    return fig
-def visualize_show(model_name):
-    plt.title(model_name)
-    plt.show()
+

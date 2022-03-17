@@ -1,6 +1,7 @@
 
 import matplotlib.pyplot as plt
 import os
+from sklearn.metrics import r2_score
 def visualize( X, Y, color, new_plot=False, figure=None):
     if new_plot:
         fig = plt.figure()
@@ -23,3 +24,5 @@ def visualize_save(model_name, experiment_name):
     plt.title(model_name)
     plt.savefig(script)
     # plt.show()
+def r2_metrics( pred, actual):
+        return r2_score(pred, actual)
